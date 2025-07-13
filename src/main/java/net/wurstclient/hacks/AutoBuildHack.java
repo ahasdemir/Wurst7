@@ -87,7 +87,7 @@ public final class AutoBuildHack extends Hack
 	@Override
 	public String getRenderName()
 	{
-		String name = getName();
+		String name = super.getRenderName();
 		
 		switch(status)
 		{

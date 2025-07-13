@@ -36,7 +36,7 @@ public final class CriticalsHack extends Hack
 	@Override
 	public String getRenderName()
 	{
-		return getName() + " [" + mode.getSelected() + "]";
+		return super.getRenderName() + " [" + mode.getSelected() + "]";
 	}
 	
 	@Override

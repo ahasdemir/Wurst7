@@ -33,15 +33,15 @@ public final class NoFallHack extends Hack implements UpdateListener
 	{
 		ClientPlayerEntity player = MC.player;
 		if(player == null)
-			return getName();
+			return super.getRenderName();
 		
 		if(player.isFallFlying() && !allowElytra.isChecked())
-			return getName() + " (paused)";
+			return super.getRenderName() + " (paused)";
 		
 		if(player.isCreative())
-			return getName() + " (paused)";
+			return super.getRenderName() + " (paused)";
 		
-		return getName();
+		return super.getRenderName();
 	}
 	
 	@Override
