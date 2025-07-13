@@ -75,7 +75,8 @@ public final class AutoBuildHack extends Hack
 			+ "Higher values = less server checks = better performance.",
 		20, 5, 100, 5, ValueDisplay.INTEGER);
 	
-	private final CheckboxSetting espOutlines = new CheckboxSetting("ESP outlines",
+	private final CheckboxSetting espOutlines = new CheckboxSetting(
+		"ESP outlines",
 		"Makes the block outlines visible through walls like ESP.\n"
 			+ "This makes it much easier to see which blocks need to be placed.",
 		true);
@@ -226,7 +227,8 @@ public final class AutoBuildHack extends Hack
 		int black = 0xFF404040; // More visible gray color
 		List<Box> outlineBoxes =
 			blocksToDraw.stream().map(pos -> BLOCK_BOX.offset(pos)).toList();
-		RenderUtils.drawOutlinedBoxes(matrixStack, outlineBoxes, black, !espOutlines.isChecked()); // ESP mode = render through blocks
+		RenderUtils.drawOutlinedBoxes(matrixStack, outlineBoxes, black,
+			!espOutlines.isChecked()); // ESP mode = render through blocks
 		
 		// Green filled boxes for blocks within range
 		int green = 0x2600FF00;
