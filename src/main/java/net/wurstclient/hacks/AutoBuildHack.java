@@ -68,7 +68,7 @@ public final class AutoBuildHack extends Hack
 		"How often to check if blocks were actually placed server-side (in ticks).\n"
 			+ "Lower values = more frequent verification = more reliable building.\n"
 			+ "Higher values = less server checks = better performance.",
-		20, 5, 100, 5, ValueDisplay.INTEGER);
+		20, 2, 100, 5, ValueDisplay.INTEGER);
 	
 	private final CheckboxSetting espOutlines = new CheckboxSetting("ESP outlines",
 		"Makes the block outlines visible through walls like ESP.\n"
