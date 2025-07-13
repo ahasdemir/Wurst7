@@ -64,9 +64,17 @@ public final class AutoBuildHack extends Hack
 		new CheckboxSetting("Always FastPlace",
 			"Builds as if FastPlace was enabled, even if it's not.", true);
 	
+	private final SliderSetting verifyDelay = new SliderSetting("Verify delay",
+		"How often to check if blocks were actually placed server-side (in ticks).\n"
+			+ "Lower values = more frequent verification = more reliable building.\n"
+			+ "Higher values = less server checks = better performance.",
+		20, 5, 100, 5, ValueDisplay.INTEGER);
+	
 	private Status status = Status.NO_TEMPLATE;
 	private AutoBuildTemplate template;
 	private LinkedHashSet<BlockPos> remainingBlocks = new LinkedHashSet<>();
+	private LinkedHashSet<BlockPos> allBlockPositions = new LinkedHashSet<>();
+	private int verificationTimer = 0;
 	
 	public AutoBuildHack()
 	{
@@ -77,6 +85,7 @@ public final class AutoBuildHack extends Hack
 		addSetting(checkLOS);
 		addSetting(instaBuild);
 		addSetting(fastPlace);
+		addSetting(verifyDelay);
 	}
 	
 	@Override
@@ -98,7 +107,7 @@ public final class AutoBuildHack extends Hack
 			break;
 			
 			case BUILDING:
-			double total = template.size();
+			double total = allBlockPositions.size();
 			double placed = total - remainingBlocks.size();
 			double progress = Math.round(placed / total * 1e4) / 1e2;
 			name += " [" + template.getName() + "] " + progress + "%";
@@ -126,6 +135,8 @@ public final class AutoBuildHack extends Hack
 		EVENTS.remove(RenderListener.class, this);
 		
 		remainingBlocks.clear();
+		allBlockPositions.clear();
+		verificationTimer = 0;
 		
 		if(template == null)
 			status = Status.NO_TEMPLATE;
@@ -151,6 +162,8 @@ public final class AutoBuildHack extends Hack
 		BlockPos startPos = hitResultPos.offset(blockHitResult.getSide());
 		Direction direction = MC.player.getHorizontalFacing();
 		remainingBlocks = template.getPositions(startPos, direction);
+		allBlockPositions = new LinkedHashSet<>(remainingBlocks);
+		verificationTimer = 0;
 		
 		if(instaBuild.isChecked() && template.size() <= 64)
 			buildInstantly();
@@ -207,8 +220,23 @@ public final class AutoBuildHack extends Hack
 	
 	private void buildNormally()
 	{
-		remainingBlocks
-			.removeIf(pos -> !BlockUtils.getState(pos).isReplaceable());
+		// Verification phase: check if blocks were actually placed server-side
+		if(verificationTimer > 0)
+		{
+			verificationTimer--;
+			return;
+		}
+		
+		// Re-verify all block positions at configurable intervals
+		verificationTimer = verifyDelay.getValueI();
+		
+		// Update remainingBlocks by checking actual server state
+		remainingBlocks.clear();
+		for(BlockPos pos : allBlockPositions)
+		{
+			if(BlockUtils.getState(pos).isReplaceable())
+				remainingBlocks.add(pos);
+		}
 		
 		if(remainingBlocks.isEmpty())
 		{
