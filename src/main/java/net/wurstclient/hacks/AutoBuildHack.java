@@ -70,6 +70,11 @@ public final class AutoBuildHack extends Hack
 			+ "Higher values = less server checks = better performance.",
 		20, 5, 100, 5, ValueDisplay.INTEGER);
 	
+	private final CheckboxSetting espOutlines = new CheckboxSetting("ESP outlines",
+		"Makes the block outlines visible through walls like ESP.\n"
+			+ "This makes it much easier to see which blocks need to be placed.",
+		true);
+	
 	private Status status = Status.NO_TEMPLATE;
 	private AutoBuildTemplate template;
 	private LinkedHashSet<BlockPos> remainingBlocks = new LinkedHashSet<>();
@@ -86,6 +91,7 @@ public final class AutoBuildHack extends Hack
 		addSetting(instaBuild);
 		addSetting(fastPlace);
 		addSetting(verifyDelay);
+		addSetting(espOutlines);
 	}
 	
 	@Override
@@ -204,11 +210,13 @@ public final class AutoBuildHack extends Hack
 			.filter(pos -> BlockUtils.getState(pos).isReplaceable()).limit(1024)
 			.toList();
 		
-		int black = 0x80000000;
+		// Brighter black outlines with optional ESP-like visibility
+		int black = 0xFF404040; // More visible gray color
 		List<Box> outlineBoxes =
 			blocksToDraw.stream().map(pos -> BLOCK_BOX.offset(pos)).toList();
-		RenderUtils.drawOutlinedBoxes(matrixStack, outlineBoxes, black, true);
+		RenderUtils.drawOutlinedBoxes(matrixStack, outlineBoxes, black, !espOutlines.isChecked()); // ESP mode = render through blocks
 		
+		// Green filled boxes for blocks within range
 		int green = 0x2600FF00;
 		Vec3d eyesPos = RotationUtils.getEyesPos();
 		double rangeSq = range.getValueSq();
