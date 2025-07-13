@@ -107,7 +107,7 @@ public final class BaseFinderHack extends Hack
 	@Override
 	public String getRenderName()
 	{
-		String name = getName() + " [";
+		String name = super.getRenderName() + " [";
 		
 		// counter
 		if(counter >= 10000)

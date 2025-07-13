@@ -14,6 +14,7 @@ import net.wurstclient.Feature;
 import net.wurstclient.hacks.ClickGuiHack;
 import net.wurstclient.hacks.NavigatorHack;
 import net.wurstclient.hacks.TooManyHaxHack;
+import net.wurstclient.settings.TextFieldSetting;
 
 public abstract class Hack extends Feature
 {
@@ -25,11 +26,19 @@ public abstract class Hack extends Feature
 	private final boolean stateSaved =
 		!getClass().isAnnotationPresent(DontSaveState.class);
 	
+	// HUD name alias setting
+	private final TextFieldSetting hudNameAlias = new TextFieldSetting(
+		"Custom HUD name",
+		"Custom name to display in the HUD instead of the default hack name.\n\n"
+			+ "Leave empty to use the default name.",
+		"");
+	
 	public Hack(String name)
 	{
 		this.name = Objects.requireNonNull(name);
 		description = "description.wurst.hack." + name.toLowerCase();
 		addPossibleKeybind(name, "Toggle " + name);
+		addSetting(hudNameAlias);
 	}
 	
 	@Override
@@ -40,7 +49,8 @@ public abstract class Hack extends Feature
 	
 	public String getRenderName()
 	{
-		return name;
+		String alias = hudNameAlias.getValue().trim();
+		return alias.isEmpty() ? name : alias;
 	}
 	
 	@Override
