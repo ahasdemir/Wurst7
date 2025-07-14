@@ -112,10 +112,12 @@ public final class AutoBuildHack extends Hack
 			case LOADING:
 			if(!hideTemplate.isChecked())
 				return "[Loading...]";
+			return null;
 			
 			case IDLE:
 			if(!hideTemplate.isChecked())
 				return "[" + template.getName() + "]";
+			return null;
 			
 			case BUILDING:
 			double total = allBlockPositions.size();
@@ -123,7 +125,7 @@ public final class AutoBuildHack extends Hack
 			double progress = Math.round(placed / total * 1e4) / 1e2;
 			
 			if(hideTemplate.isChecked())
-				name += " " + progress + "%";
+				return progress + "%";
 			else
 				return "[" + template.getName() + "] " + progress + "%";
 		}
