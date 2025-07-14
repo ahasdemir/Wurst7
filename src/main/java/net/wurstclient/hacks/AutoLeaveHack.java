@@ -62,12 +62,12 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(MC.player.getAbilities().creativeMode)
-			return getName() + " (paused)";
+			return "(paused)";
 		
-		return getName() + " [" + mode.getSelected() + "]";
+		return "[" + mode.getSelected() + "]";
 	}
 	
 	@Override

@@ -107,11 +107,11 @@ public final class ProtectHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(friend != null)
-			return "Protecting " + friend.getName().getString();
-		return "Protect";
+			return "[" + friend.getName().getString() + "]";
+		return null;
 	}
 	
 	@Override

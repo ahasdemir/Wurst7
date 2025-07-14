@@ -84,18 +84,18 @@ public final class TreeBotHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(treeFinder != null && !treeFinder.isDone() && !treeFinder.isFailed())
-			return getName() + " [Searching]";
+			return "[Searching]";
 		
 		if(processor != null && !processor.isDone())
-			return getName() + " [Going]";
+			return "[Going]";
 		
 		if(tree != null && !tree.getLogs().isEmpty())
-			return getName() + " [Chopping]";
+			return "[Chopping]";
 		
-		return getName();
+		return null;
 	}
 	
 	@Override

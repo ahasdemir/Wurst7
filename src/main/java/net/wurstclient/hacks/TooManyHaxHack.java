@@ -52,9 +52,9 @@ public final class TooManyHaxHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + " [" + blockedFeatures.size() + " blocked]";
+		return "[" + blockedFeatures.size() + " blocked]";
 	}
 	
 	@Override

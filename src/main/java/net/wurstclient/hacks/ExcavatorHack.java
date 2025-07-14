@@ -69,20 +69,18 @@ public final class ExcavatorHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		String name = getName();
-		
 		if(step == Step.EXCAVATE && area != null)
 		{
 			int totalBlocks = area.blocksList.size();
 			double brokenBlocks = totalBlocks - area.remainingBlocks;
 			double progress = brokenBlocks / totalBlocks;
 			int percentage = (int)(progress * 100);
-			name += " " + percentage + "%";
+			return "[" + percentage + "%]";
 		}
 		
-		return name;
+		return null;
 	}
 	
 	@Override

@@ -53,9 +53,9 @@ public final class SpeedNukerHack extends Hack implements UpdateListener
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + commonSettings.getRenderNameSuffix();
+		return commonSettings.getRenderNameSuffix();
 	}
 	
 	@Override

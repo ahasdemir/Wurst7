@@ -30,9 +30,9 @@ public final class BunnyHopHack extends Hack implements UpdateListener
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return super.getRenderName() + " [" + jumpIf.getSelected().name + "]";
+		return "[" + jumpIf.getSelected().name + "]";
 	}
 	
 	@Override

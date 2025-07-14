@@ -65,11 +65,11 @@ public final class FollowHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(entity != null)
-			return "Following " + entity.getName().getString();
-		return super.getRenderName();
+			return "[" + entity.getName().getString() + "]";
+		return null;
 	}
 	
 	@Override

@@ -102,24 +102,20 @@ public final class AutoBuildHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		String name = super.getRenderName();
-		
 		switch(status)
 		{
 			case NO_TEMPLATE:
-			break;
+			return null;
 			
 			case LOADING:
 			if(!hideTemplate.isChecked())
-				name += " [Loading...]";
-			break;
+				return "[Loading...]";
 			
 			case IDLE:
 			if(!hideTemplate.isChecked())
-				name += " [" + template.getName() + "]";
-			break;
+				return "[" + template.getName() + "]";
 			
 			case BUILDING:
 			double total = allBlockPositions.size();
@@ -129,11 +125,10 @@ public final class AutoBuildHack extends Hack
 			if(hideTemplate.isChecked())
 				name += " " + progress + "%";
 			else
-				name += " [" + template.getName() + "] " + progress + "%";
-			break;
+				return "[" + template.getName() + "] " + progress + "%";
 		}
 		
-		return name;
+		return null;
 	}
 	
 	@Override

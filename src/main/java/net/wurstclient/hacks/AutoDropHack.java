@@ -32,8 +32,7 @@ public final class AutoDropHack extends Hack implements UpdateListener
 		"minecraft:rose_bush", "minecraft:rotten_flesh", "minecraft:sunflower",
 		"minecraft:wheat_seeds", "minecraft:white_tulip");
 	
-	private final String renderName =
-		Math.random() < 0.01 ? "AutoLinus" : getName();
+	private final boolean isAutoLinus = Math.random() < 0.01;
 	
 	public AutoDropHack()
 	{
@@ -43,9 +42,9 @@ public final class AutoDropHack extends Hack implements UpdateListener
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return renderName;
+		return isAutoLinus ? "[Linus Mode]" : null;
 	}
 	
 	@Override

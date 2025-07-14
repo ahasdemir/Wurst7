@@ -50,7 +50,24 @@ public abstract class Hack extends Feature
 	public String getRenderName()
 	{
 		String alias = hudNameAlias.getValue().trim();
-		return alias.isEmpty() ? name : alias;
+		String baseName = alias.isEmpty() ? name : alias;
+		String statusInfo = getStatusInfo();
+		
+		if(statusInfo == null || statusInfo.isEmpty())
+			return baseName;
+		
+		return baseName + " " + statusInfo;
+	}
+	
+	/**
+	 * Override this method to add status information to the HUD display name.
+	 * The status info will be appended to the base name (custom or default).
+	 *
+	 * @return status information to append, or null/empty for no status
+	 */
+	protected String getStatusInfo()
+	{
+		return null;
 	}
 	
 	@Override
