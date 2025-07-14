@@ -81,10 +81,9 @@ public final class SearchHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + " [" + block.getBlockName().replace("minecraft:", "")
-			+ "]";
+		return "[" + block.getBlockName().replace("minecraft:", "") + "]";
 	}
 	
 	@Override

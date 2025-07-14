@@ -79,12 +79,12 @@ public final class AntiAfkHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(showWaitTime.isChecked() && timer > 0)
-			return getName() + " [" + timer * 50 + "ms]";
+			return "[" + timer * 50 + "ms]";
 		
-		return getName();
+		return null;
 	}
 	
 	@Override

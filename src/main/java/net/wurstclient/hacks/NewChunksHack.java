@@ -136,13 +136,12 @@ public final class NewChunksHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(!showCounter.isChecked())
-			return super.getRenderName();
+			return null;
 		
-		return String.format("%s [%d/%d]", getName(), newChunks.size(),
-			oldChunks.size());
+		return String.format("[%d/%d]", newChunks.size(), oldChunks.size());
 	}
 	
 	@Override

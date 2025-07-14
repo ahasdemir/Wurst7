@@ -89,8 +89,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 		0, 0, 0.99, 0.01, ValueDisplay.PERCENTAGE.withLabel(0, "off"));
 	
 	private final String optiFineWarning;
-	private final String renderName =
-		Math.random() < 0.01 ? "X-Wurst" : getName();
+	private final boolean isXWurst = Math.random() < 0.01;
 	
 	private ArrayList<String> oreNamesCache;
 	private final ThreadLocal<BlockPos.Mutable> mutablePosForExposedCheck =
@@ -107,9 +106,9 @@ public final class XRayHack extends Hack implements UpdateListener,
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return renderName;
+		return isXWurst ? "[Wurst Mode]" : null;
 	}
 	
 	@Override

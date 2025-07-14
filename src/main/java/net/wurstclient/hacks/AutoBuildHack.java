@@ -80,32 +80,27 @@ public final class AutoBuildHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		String name = super.getRenderName();
-		
 		switch(status)
 		{
 			case NO_TEMPLATE:
-			break;
+			return null;
 			
 			case LOADING:
-			name += " [Loading...]";
-			break;
+			return "[Loading...]";
 			
 			case IDLE:
-			name += " [" + template.getName() + "]";
-			break;
+			return "[" + template.getName() + "]";
 			
 			case BUILDING:
 			double total = template.size();
 			double placed = total - remainingBlocks.size();
 			double progress = Math.round(placed / total * 1e4) / 1e2;
-			name += " [" + template.getName() + "] " + progress + "%";
-			break;
+			return "[" + template.getName() + "] " + progress + "%";
 		}
 		
-		return name;
+		return null;
 	}
 	
 	@Override

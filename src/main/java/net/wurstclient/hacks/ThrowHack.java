@@ -29,9 +29,9 @@ public final class ThrowHack extends Hack implements RightClickListener
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + " [" + amount.getValueString() + "]";
+		return "[" + amount.getValueString() + "]";
 	}
 	
 	@Override

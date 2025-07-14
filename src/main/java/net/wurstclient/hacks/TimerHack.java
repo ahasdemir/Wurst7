@@ -25,9 +25,9 @@ public final class TimerHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + " [" + speed.getValueString() + "]";
+		return "[" + speed.getValueString() + "]";
 	}
 	
 	public float getTimerSpeed()

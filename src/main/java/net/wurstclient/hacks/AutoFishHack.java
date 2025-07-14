@@ -95,12 +95,12 @@ public final class AutoFishHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(rodSelector.isOutOfRods())
-			return getName() + " [out of rods]";
+			return "[out of rods]";
 		
-		return getName();
+		return null;
 	}
 	
 	@Override

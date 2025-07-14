@@ -105,22 +105,17 @@ public final class BaseFinderHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		String name = super.getRenderName() + " [";
-		
 		// counter
 		if(counter >= 10000)
-			name += "10000+ blocks";
+			return "[10000+ blocks found]";
 		else if(counter == 1)
-			name += "1 block";
+			return "[1 block found]";
 		else if(counter == 0)
-			name += "nothing";
+			return "[nothing found]";
 		else
-			name += counter + " blocks";
-		
-		name += " found]";
-		return name;
+			return "[" + counter + " blocks found]";
 	}
 	
 	@Override

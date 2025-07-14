@@ -45,9 +45,9 @@ public final class SneakHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
-		return getName() + " [" + mode.getSelected() + "]";
+		return "[" + mode.getSelected() + "]";
 	}
 	
 	@Override

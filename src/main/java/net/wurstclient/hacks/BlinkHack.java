@@ -41,12 +41,11 @@ public final class BlinkHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(limit.getValueI() == 0)
-			return super.getRenderName() + " [" + packets.size() + "]";
-		return super.getRenderName() + " [" + packets.size() + "/"
-			+ limit.getValueI() + "]";
+			return "[" + packets.size() + "]";
+		return "[" + packets.size() + "/" + limit.getValueI() + "]";
 	}
 	
 	@Override

@@ -57,11 +57,11 @@ public final class FastBreakHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(legitMode.isChecked())
-			return getName() + "Legit";
-		return getName();
+			return "[Legit]";
+		return null;
 	}
 	
 	@Override

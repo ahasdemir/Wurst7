@@ -94,11 +94,11 @@ public final class TunnellerHack extends Hack
 	}
 	
 	@Override
-	public String getRenderName()
+	protected String getStatusInfo()
 	{
 		if(limit.getValueI() == 0)
-			return getName();
-		return getName() + " [" + length + "/" + limit.getValueI() + "]";
+			return null;
+		return "[" + length + "/" + limit.getValueI() + "]";
 	}
 	
 	@Override
