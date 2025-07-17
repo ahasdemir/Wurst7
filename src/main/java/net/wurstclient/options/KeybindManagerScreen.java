@@ -182,12 +182,46 @@ public final class KeybindManagerScreen extends Screen
 		{
 			TextRenderer tr = client.textRenderer;
 			
-			String keyText =
-				"Key: " + keybind.getKey().replace("key.keyboard.", "");
+			String keyText = "Key: " + formatKeyDisplay(keybind.getKey());
 			context.drawText(tr, keyText, x + 3, y + 3, 0xA0A0A0, false);
 			
 			String cmdText = "Commands: " + keybind.getCommands();
 			context.drawText(tr, cmdText, x + 3, y + 15, 0xA0A0A0, false);
+		}
+		
+		private String formatKeyDisplay(String key)
+		{
+			// Handle combination keys
+			if(key.contains("+"))
+			{
+				String[] parts = key.split("\\+");
+				StringBuilder display = new StringBuilder();
+				
+				for(int i = 0; i < parts.length; i++)
+				{
+					if(i > 0)
+						display.append(" + ");
+					
+					String part = parts[i];
+					if(part.startsWith("key.keyboard."))
+						part = part.replace("key.keyboard.", "");
+					
+					// Capitalize modifier keys for display
+					if(part.equalsIgnoreCase("ctrl"))
+						part = "Ctrl";
+					else if(part.equalsIgnoreCase("alt"))
+						part = "Alt";
+					else if(part.equalsIgnoreCase("shift"))
+						part = "Shift";
+					
+					display.append(part);
+				}
+				
+				return display.toString();
+			}
+			
+			// Handle single keys
+			return key.replace("key.keyboard.", "");
 		}
 	}
 	
