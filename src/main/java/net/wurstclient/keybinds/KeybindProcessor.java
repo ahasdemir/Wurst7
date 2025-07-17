@@ -60,7 +60,51 @@ public final class KeybindProcessor implements KeyPressListener
 	{
 		int keyCode = event.getKeyCode();
 		int scanCode = event.getScanCode();
-		return InputUtil.fromKeyCode(keyCode, scanCode).getTranslationKey();
+		String baseKey =
+			InputUtil.fromKeyCode(keyCode, scanCode).getTranslationKey();
+		
+		// Don't process if the pressed key is a modifier key itself
+		if(isModifierKey(keyCode))
+			return baseKey;
+		
+		// Check for modifier keys
+		long window = WurstClient.MC.getWindow().getHandle();
+		StringBuilder keyName = new StringBuilder();
+		
+		// Check for Ctrl
+		if(InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_CONTROL)
+			|| InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_CONTROL))
+		{
+			keyName.append("ctrl+");
+		}
+		
+		// Check for Alt
+		if(InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_ALT)
+			|| InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_ALT))
+		{
+			keyName.append("alt+");
+		}
+		
+		// Check for Shift
+		if(InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_SHIFT)
+			|| InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_SHIFT))
+		{
+			keyName.append("shift+");
+		}
+		
+		keyName.append(baseKey);
+		
+		return keyName.toString();
+	}
+	
+	private boolean isModifierKey(int keyCode)
+	{
+		return keyCode == GLFW.GLFW_KEY_LEFT_CONTROL
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL
+			|| keyCode == GLFW.GLFW_KEY_LEFT_ALT
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_ALT
+			|| keyCode == GLFW.GLFW_KEY_LEFT_SHIFT
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT;
 	}
 	
 	private void processCmds(String cmds)

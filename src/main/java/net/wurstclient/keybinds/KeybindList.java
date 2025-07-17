@@ -62,6 +62,34 @@ public final class KeybindList
 		keybindsFile.save(this);
 	}
 	
+	public void addCombination(String modifiers, String key, String commands)
+	{
+		String fullKey = modifiers + "+key.keyboard." + key;
+		add(fullKey, commands);
+	}
+	
+	/**
+	 * Creates a keybind with combination keys.
+	 *
+	 * @param modifiers
+	 *            Modifier keys like "alt", "ctrl", "shift", or combinations
+	 *            like "ctrl+shift"
+	 * @param key
+	 *            Base key name (without "key.keyboard." prefix)
+	 * @param commands
+	 *            Commands to execute
+	 *			
+	 *            Examples:
+	 *            - addCombination("alt", "o", "say Hello") → Alt+O
+	 *            - addCombination("ctrl+shift", "f", "fastplace") →
+	 *            Ctrl+Shift+F
+	 */
+	public void addCombinationKeybind(String modifiers, String key,
+		String commands)
+	{
+		addCombination(modifiers, key, commands);
+	}
+	
 	public void setKeybinds(Set<Keybind> keybinds)
 	{
 		this.keybinds.clear();
@@ -131,11 +159,23 @@ public final class KeybindList
 		addKB(set, "u", "freecam");
 		addKB(set, "x", "x-ray");
 		addKB(set, "y", "sneak");
+		
+		// Example: Add combination keybind
+		// addCombinationKB(set, "alt", "o", "say Alt+O pressed!");
+		
 		return Collections.unmodifiableSet(set);
 	}
 	
 	private static void addKB(Set<Keybind> set, String key, String cmds)
 	{
 		set.add(new Keybind("key.keyboard." + key, cmds));
+	}
+	
+	// Helper method for adding combination keybinds (for future use)
+	@SuppressWarnings("unused")
+	private static void addCombinationKB(Set<Keybind> set, String modifiers,
+		String key, String cmds)
+	{
+		set.add(new Keybind(modifiers + "+key.keyboard." + key, cmds));
 	}
 }

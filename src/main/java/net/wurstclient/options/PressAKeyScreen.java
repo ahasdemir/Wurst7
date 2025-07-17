@@ -29,18 +29,57 @@ public class PressAKeyScreen extends Screen
 	}
 	
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int int_3)
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		if(keyCode != GLFW.GLFW_KEY_ESCAPE)
-			prevScreen.setKey(getKeyName(keyCode, scanCode));
+		if(keyCode == GLFW.GLFW_KEY_ESCAPE)
+		{
+			client.setScreen((Screen)prevScreen);
+			return super.keyPressed(keyCode, scanCode, modifiers);
+		}
 		
+		// Don't capture standalone modifier keys - stay on the screen
+		if(isModifierKey(keyCode))
+			return super.keyPressed(keyCode, scanCode, modifiers);
+		
+		// Valid key pressed - set it and go back
+		prevScreen.setKey(getKeyName(keyCode, scanCode, modifiers));
 		client.setScreen((Screen)prevScreen);
-		return super.keyPressed(keyCode, scanCode, int_3);
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 	
-	private String getKeyName(int keyCode, int scanCode)
+	private String getKeyName(int keyCode, int scanCode, int modifiers)
 	{
-		return InputUtil.fromKeyCode(keyCode, scanCode).getTranslationKey();
+		// Check for modifier keys
+		boolean ctrl = (modifiers & GLFW.GLFW_MOD_CONTROL) != 0;
+		boolean alt = (modifiers & GLFW.GLFW_MOD_ALT) != 0;
+		boolean shift = (modifiers & GLFW.GLFW_MOD_SHIFT) != 0;
+		
+		String baseKey =
+			InputUtil.fromKeyCode(keyCode, scanCode).getTranslationKey();
+		
+		// Build combination key string (lowercase to match KeybindProcessor)
+		StringBuilder keyBuilder = new StringBuilder();
+		if(ctrl)
+			keyBuilder.append("ctrl+");
+		if(alt)
+			keyBuilder.append("alt+");
+		if(shift)
+			keyBuilder.append("shift+");
+		keyBuilder.append(baseKey);
+		
+		return keyBuilder.toString();
+	}
+	
+	private boolean isModifierKey(int keyCode)
+	{
+		return keyCode == GLFW.GLFW_KEY_LEFT_CONTROL
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL
+			|| keyCode == GLFW.GLFW_KEY_LEFT_ALT
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_ALT
+			|| keyCode == GLFW.GLFW_KEY_LEFT_SHIFT
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT
+			|| keyCode == GLFW.GLFW_KEY_LEFT_SUPER
+			|| keyCode == GLFW.GLFW_KEY_RIGHT_SUPER;
 	}
 	
 	@Override
@@ -55,7 +94,13 @@ public class PressAKeyScreen extends Screen
 	{
 		renderBackground(context);
 		context.drawCenteredTextWithShadow(textRenderer, "Press a key",
-			width / 2, height / 4 + 48, 16777215);
+			width / 2, height / 4 + 36, 16777215);
+		context.drawCenteredTextWithShadow(textRenderer,
+			"Hold Ctrl, Alt, or Shift for combinations", width / 2,
+			height / 4 + 48, 0xa0a0a0);
+		context.drawCenteredTextWithShadow(textRenderer,
+			"Examples: Ctrl+O, Alt+Shift+F, etc.", width / 2, height / 4 + 60,
+			0xa0a0a0);
 		super.render(context, mouseX, mouseY, partialTicks);
 	}
 }

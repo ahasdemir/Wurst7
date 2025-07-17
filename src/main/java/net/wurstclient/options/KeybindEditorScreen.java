@@ -104,13 +104,47 @@ public final class KeybindEditorScreen extends Screen
 			0xffffff);
 		
 		context.drawTextWithShadow(textRenderer,
-			"Key: " + key.replace("key.keyboard.", ""), width / 2 - 100, 47,
-			0xa0a0a0);
+			"Key: " + formatKeyDisplay(key), width / 2 - 100, 47, 0xa0a0a0);
 		context.drawTextWithShadow(textRenderer, "Commands (separated by ';')",
 			width / 2 - 100, 87, 0xa0a0a0);
 		
 		commandField.render(context, mouseX, mouseY, partialTicks);
 		super.render(context, mouseX, mouseY, partialTicks);
+	}
+	
+	private String formatKeyDisplay(String key)
+	{
+		// Handle combination keys
+		if(key.contains("+"))
+		{
+			String[] parts = key.split("\\+");
+			StringBuilder display = new StringBuilder();
+			
+			for(int i = 0; i < parts.length; i++)
+			{
+				if(i > 0)
+					display.append(" + ");
+				
+				String part = parts[i];
+				if(part.startsWith("key.keyboard."))
+					part = part.replace("key.keyboard.", "");
+				
+				// Capitalize modifier keys for display
+				if(part.equalsIgnoreCase("ctrl"))
+					part = "Ctrl";
+				else if(part.equalsIgnoreCase("alt"))
+					part = "Alt";
+				else if(part.equalsIgnoreCase("shift"))
+					part = "Shift";
+				
+				display.append(part);
+			}
+			
+			return display.toString();
+		}
+		
+		// Handle single keys
+		return key.replace("key.keyboard.", "");
 	}
 	
 	@Override
